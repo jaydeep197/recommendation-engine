@@ -6,16 +6,16 @@ defaultName: Stranger
 database:
 
   # the name of your JDBC driver
-  driverClass: org.h2.Driver
+  driverClass: com.mysql.jdbc.Driver
 
   # the username
-  user: sa
+  user: root
 
   # the password
-  password: sa
+  password: jaydeep.c
 
   # the JDBC URL
-  url: jdbc:h2:target/example
+  url: jdbc:mysql://localhost:3306/example
 
 # HTTP-specific options.
 http:

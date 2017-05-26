@@ -2,15 +2,13 @@ package com.example.helloworld;
 
 import com.example.helloworld.auth.ExampleAuthenticator;
 import com.example.helloworld.cli.RenderCommand;
-import com.example.helloworld.core.Person;
-import com.example.helloworld.core.Template;
-import com.example.helloworld.core.User;
+import com.example.helloworld.core.*;
+import com.example.helloworld.db.DeviceDao;
+import com.example.helloworld.db.DeviceTypeDao;
 import com.example.helloworld.db.PersonDAO;
+import com.example.helloworld.db.SmartAppDao;
 import com.example.helloworld.health.TemplateHealthCheck;
-import com.example.helloworld.resources.HelloWorldResource;
-import com.example.helloworld.resources.PeopleResource;
-import com.example.helloworld.resources.PersonResource;
-import com.example.helloworld.resources.ProtectedResource;
+import com.example.helloworld.resources.*;
 import com.yammer.dropwizard.Service;
 import com.yammer.dropwizard.assets.AssetsBundle;
 import com.yammer.dropwizard.auth.basic.BasicAuthProvider;
@@ -26,7 +24,7 @@ public class HelloWorldService extends Service<HelloWorldConfiguration> {
     }
 
     private final HibernateBundle<HelloWorldConfiguration> hibernateBundle =
-            new HibernateBundle<HelloWorldConfiguration>(Person.class) {
+            new HibernateBundle<HelloWorldConfiguration>(Person.class, Device.class, DeviceType.class, SmartApp.class) {
                 @Override
                 public DatabaseConfiguration getDatabaseConfiguration(HelloWorldConfiguration configuration) {
                     return configuration.getDatabaseConfiguration();
@@ -51,7 +49,9 @@ public class HelloWorldService extends Service<HelloWorldConfiguration> {
     public void run(HelloWorldConfiguration configuration,
                     Environment environment) throws ClassNotFoundException {
         final PersonDAO dao = new PersonDAO(hibernateBundle.getSessionFactory());
-
+        final DeviceDao deviceDao =  new DeviceDao(hibernateBundle.getSessionFactory());
+        final DeviceTypeDao deviceTypeDao = new DeviceTypeDao(hibernateBundle.getSessionFactory());
+        final SmartAppDao smartAppDao = new SmartAppDao(hibernateBundle.getSessionFactory());
         environment.addProvider(new BasicAuthProvider<User>(new ExampleAuthenticator(),
                                                             "SUPER SECRET STUFF"));
 
@@ -59,6 +59,7 @@ public class HelloWorldService extends Service<HelloWorldConfiguration> {
 
         environment.addHealthCheck(new TemplateHealthCheck(template));
         environment.addResource(new HelloWorldResource(template));
+        environment.addResource(new RecommendResource(deviceDao, deviceTypeDao, smartAppDao));
         environment.addResource(new ProtectedResource());
 
         environment.addResource(new PeopleResource(dao));

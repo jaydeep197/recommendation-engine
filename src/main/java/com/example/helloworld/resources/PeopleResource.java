@@ -4,10 +4,7 @@ import com.example.helloworld.core.Person;
 import com.example.helloworld.db.PersonDAO;
 import com.yammer.dropwizard.hibernate.UnitOfWork;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
@@ -23,6 +20,7 @@ public class PeopleResource {
 
     @POST
     @UnitOfWork
+    @Consumes(MediaType.APPLICATION_JSON)
     public Person createPerson(Person person) {
         return peopleDAO.create(person);
     }

@@ -1,36 +1,53 @@
 package com.example.helloworld.core;
 
+import com.sun.xml.internal.ws.developer.Serialization;
+
+import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
 /**
  * Created by jaydeep.gc on 5/25/2017.
  */
-public class SmartApp {
+
+@Entity
+@Table(name = "smartApp")
+@NamedQueries({
+        @NamedQuery(
+                name = "com.example.helloworld.core.SmartApp.findAll",
+                query = "SELECT sa FROM SmartApp sa"
+        ),
+        @NamedQuery(
+                name = "com.example.helloworld.core.SmartApp.findById",
+                query = "SELECT sa FROM SmartApp sa WHERE sa.smartAppId = :smartAppId"
+        )
+})
+public class SmartApp implements Serializable {
 
 
-    private Boolean isInstalled;
-    private Map<String, Boolean> capabilities;
+    @Id
+    @Column(name = "smartAppId", nullable = false)
+    private String smartAppId;
 
-    public Map<String, Boolean> getCapabilities() {
-        return capabilities;
+
+    @Id
+    @Column(name = "capability", nullable = false)
+    private String capability;
+
+    public String getSmartAppId() {
+        return smartAppId;
     }
 
-    public void setCapabilities(Map<String, Boolean> capabilities) {
-        this.capabilities = capabilities;
+    public void setSmartAppId(String smartAppId) {
+        this.smartAppId = smartAppId;
     }
 
-    public void updateAvailability(String capabilityId, Boolean isAvailable) {
-        this.capabilities.replace(capabilityId, isAvailable);
+    public String getCapability() {
+        return capability;
     }
 
-
-    public Boolean getIsInstalled() {
-        return isInstalled;
+    public void setCapability(String capability) {
+        this.capability = capability;
     }
-
-    public void setIsInstalled(Boolean isInstalled) {
-        this.isInstalled = isInstalled;
-    }
-
 }

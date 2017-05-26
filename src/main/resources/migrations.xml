@@ -16,5 +16,32 @@
             </column>
             <column name="jobTitle" type="varchar(255)"/>
         </createTable>
+
+        <createTable tableName="device">
+            <column name="deviceId" type="varchar(255)" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="deviceTypeId" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="deviceType">
+            <column name="deviceTypeId" type="varchar(255)" autoIncrement="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="capability" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="smartApp">
+            <column name="smartAppId" type="varchar(255)" autoIncrement="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="capability" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
     </changeSet>
 </databaseChangeLog>
