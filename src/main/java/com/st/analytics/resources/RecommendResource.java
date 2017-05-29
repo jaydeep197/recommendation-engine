@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.*;
@@ -29,18 +30,15 @@ import java.util.concurrent.TimeUnit;
 @Produces(MediaType.APPLICATION_JSON)
 public class RecommendResource {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(HelloWorldResource.class);
-
-    ObjectMapper mapper = new ObjectMapper();
-    JsonNode deviceTypeToCapability;
-    JsonNode deviceToDeviceType;
-    JsonNode smartAppToCapability;
-    Integer deviceCount;
+    private static final Logger LOGGER = LoggerFactory.getLogger(RecommendResource.class);
 
     private final DeviceDao deviceDao;
     private final DeviceTypeDao deviceTypeDao;
     private final SmartAppDao smartAppDao;
 
+    private Set<String> deviceTypeCapabilities = new HashSet<>();
+    private Map<String, Set<String>> smartAppToCapability = new HashMap<>();
+    private Boolean loaded = false;
 
 
 
@@ -50,17 +48,68 @@ public class RecommendResource {
         this.smartAppDao = smartAppDao;
     }
 
+    private void loadCapabilities() {
+        if (!loaded) {
+            List<Device> devices = deviceDao.findAll();
+            for(Device device : devices) {
+                List<DeviceType> deviceTypes = deviceTypeDao.findById(device.getDeviceTypeId());
+                for (DeviceType deviceType : deviceTypes) {
+                    deviceTypeCapabilities.add(deviceType.getCapabiliy());
+                }
+            }
 
-    @GET
-    @UnitOfWork
-    @Timed(name = "get-requests")
-    @CacheControl(maxAge = 1, maxAgeUnit = TimeUnit.DAYS)
-    public List<String> sayHello() {
-        return getSmartApp();
-        //return new Saying(counter.incrementAndGet(), template.render(name));
+            List<SmartApp> smartApps = smartAppDao.findAll();
+            for (SmartApp smartApp : smartApps) {
+                String smartAppId = smartApp.getSmartAppId();
+                if (smartAppToCapability.containsKey(smartAppId)) {
+                    Set<String> capability = smartAppToCapability.get(smartAppId);
+                    capability.add(smartApp.getCapability());
+                    smartAppToCapability.replace(smartAppId, capability);
+                } else {
+                    smartAppToCapability.put(smartAppId, new HashSet<>(Arrays.asList(smartApp.getCapability())));
+                }
+            }
+            loaded = true;
+        }
     }
 
 
+    @GET
+    @UnitOfWork
+    @Path("/load")
+    public void load() {
+        loaded = false;
+        loadCapabilities();
+    }
+
+    @GET
+    @UnitOfWork
+    @Path("/{deviceId}")
+    public List<String> getSmartApp(@PathParam("deviceId") String deviceId) {
+        loadCapabilities();
+        Device device = deviceDao.findById(deviceId).get();
+        List<DeviceType> deviceTypes = deviceTypeDao.findById(device.getDeviceTypeId());
+        for (DeviceType deviceType : deviceTypes) {
+            deviceTypeCapabilities.add(deviceType.getCapabiliy());
+        }
+        List<String> smartAppIds = new ArrayList<>();
+        for (String smartAppId : smartAppToCapability.keySet()) {
+            if (deviceTypeCapabilities.containsAll(smartAppToCapability.get(smartAppId))) {
+                smartAppIds.add(smartAppId);
+            }
+        }
+        return smartAppIds;
+    }
+
+
+
+
+
+
+
+
+
+    /*
     private List<String> getSmartApp() {
 
         List<Device> devices = deviceDao.findAll();
@@ -96,4 +145,5 @@ public class RecommendResource {
         return smartAppIds;
     }
 
+*/
 }
