@@ -25,7 +25,6 @@ public class Device {
     private String deviceId;
 
     @Column(name = "deviceTypeId", nullable = false)
-
     private String deviceTypeId;
     public String getDeviceTypeId() {
         return deviceTypeId;

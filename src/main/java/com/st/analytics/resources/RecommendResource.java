@@ -29,13 +29,7 @@ import java.util.concurrent.TimeUnit;
 @Produces(MediaType.APPLICATION_JSON)
 public class RecommendResource {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(HelloWorldResource.class);
-
-    ObjectMapper mapper = new ObjectMapper();
-    JsonNode deviceTypeToCapability;
-    JsonNode deviceToDeviceType;
-    JsonNode smartAppToCapability;
-    Integer deviceCount;
+    private static final Logger LOGGER = LoggerFactory.getLogger(RecommendResource.class);
 
     private final DeviceDao deviceDao;
     private final DeviceTypeDao deviceTypeDao;
@@ -57,7 +51,6 @@ public class RecommendResource {
     @CacheControl(maxAge = 1, maxAgeUnit = TimeUnit.DAYS)
     public List<String> sayHello() {
         return getSmartApp();
-        //return new Saying(counter.incrementAndGet(), template.render(name));
     }
 
 

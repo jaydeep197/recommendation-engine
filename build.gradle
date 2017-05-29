@@ -10,7 +10,7 @@ targetCompatibility = '1.7'
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 // The main class of the application
-mainClassName = 'com.example.helloworld.HelloWorldService'
+mainClassName = 'com.example.helloworld.RecommendationService'
 
 // Add Gradle OneJar Plugin, see https://github.com/rholder/gradle-one-jar
 buildscript {
