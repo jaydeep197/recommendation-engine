@@ -1,13 +1,11 @@
-package com.example.helloworld.resources;
+package com.st.analytics.resources;
 
-import com.example.helloworld.core.Device;
-import com.example.helloworld.core.DeviceType;
-import com.example.helloworld.core.SmartApp;
-import com.example.helloworld.core.Template;
-import com.example.helloworld.db.DeviceDao;
-import com.example.helloworld.db.DeviceTypeDao;
-import com.example.helloworld.db.PersonDAO;
-import com.example.helloworld.db.SmartAppDao;
+import com.st.analytics.core.Device;
+import com.st.analytics.core.DeviceType;
+import com.st.analytics.core.SmartApp;
+import com.st.analytics.db.DeviceDao;
+import com.st.analytics.db.DeviceTypeDao;
+import com.st.analytics.db.SmartAppDao;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yammer.dropwizard.hibernate.UnitOfWork;
@@ -20,10 +18,8 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import java.io.File;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Created by jaydeep.gc on 5/26/2017.

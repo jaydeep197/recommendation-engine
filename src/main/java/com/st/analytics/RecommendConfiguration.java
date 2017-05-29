@@ -1,6 +1,6 @@
-package com.example.helloworld;
+package com.st.analytics;
 
-import com.example.helloworld.core.Template;
+import com.st.analytics.core.Template;
 import com.yammer.dropwizard.config.Configuration;
 import com.yammer.dropwizard.db.DatabaseConfiguration;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -9,7 +9,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-public class HelloWorldConfiguration extends Configuration {
+public class RecommendConfiguration extends Configuration {
     @NotEmpty
     private String template;
     

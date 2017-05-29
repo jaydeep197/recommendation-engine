@@ -1,4 +1,4 @@
-package com.example.helloworld.core;
+package com.st.analytics.core;
 
 import com.sun.xml.internal.ws.developer.Serialization;
 

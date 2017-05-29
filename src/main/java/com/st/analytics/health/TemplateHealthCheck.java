@@ -1,6 +1,6 @@
-package com.example.helloworld.health;
+package com.st.analytics.health;
 
-import com.example.helloworld.core.Template;
+import com.st.analytics.core.Template;
 import com.google.common.base.Optional;
 import com.yammer.metrics.core.HealthCheck;
 

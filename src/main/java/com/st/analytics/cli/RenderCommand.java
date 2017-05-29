@@ -1,7 +1,7 @@
-package com.example.helloworld.cli;
+package com.st.analytics.cli;
 
-import com.example.helloworld.HelloWorldConfiguration;
-import com.example.helloworld.core.Template;
+import com.st.analytics.HelloWorldConfiguration;
+import com.st.analytics.core.Template;
 import com.google.common.base.Optional;
 import com.yammer.dropwizard.cli.ConfiguredCommand;
 import com.yammer.dropwizard.config.Bootstrap;

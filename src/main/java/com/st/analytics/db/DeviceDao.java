@@ -1,6 +1,6 @@
-package com.example.helloworld.db;
+package com.st.analytics.db;
 
-import com.example.helloworld.core.Device;
+import com.st.analytics.core.Device;
 import com.google.common.base.Optional;
 import com.yammer.dropwizard.hibernate.AbstractDAO;
 import org.hibernate.SessionFactory;
